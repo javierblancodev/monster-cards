@@ -5,14 +5,33 @@ class App extends Component {
   // the constructor is the first method to be called when a component is render
   constructor() {
     super();
+
     this.state = {
-      name: "Javier",
-      company: "J.P Morgan",
+      monsters: [
+        {
+          name: "Linda",
+        },
+        {
+          name: "Frank",
+        },
+        {
+          name: "Jacky",
+        },
+        {
+          name: "Charles",
+        },
+      ],
     };
   }
 
   render() {
-    return <div className="App"></div>;
+    return (
+      <div className="App">
+        {this.state.monsters.map((monster) => {
+          return <h1>{monster.name}</h1>;
+        })}
+      </div>
+    );
   }
 }
 
