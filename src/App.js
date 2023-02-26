@@ -6,15 +6,20 @@ class App extends Component {
   constructor() {
     super();
 
+    // Initiate the state
     this.state = {
       monsters: [],
+      searchField: "",
     };
+
+    console.log("constructor");
   }
 
   // In react we have access to (i.e. we can rewrite) some Component class methods - lifecycle methods
   // These methods indicates when render or redender
-  // For example, componentDidMount() renders when a component is mounted (rendered a component into the page) and it is typically used to fetch data required by the component
+  // For example, componentDidMount() renders when a component is mounted (rendered a component into the page), but not rerendered for example after the state changes, and it is typically used to fetch data required by the component
   componentDidMount() {
+    console.log("componentDidMount");
     fetch("https://jsonplaceholder.typicode.com/users")
       .then((response) => response.json())
       .then((users) =>
@@ -29,10 +34,35 @@ class App extends Component {
       );
   }
 
+  // it is good practice to have functions that get called on an event listener and does not change declare out of the render method
+  // the reason is that this way it is initialised just once, when the component is created, and not everytime that the
+  // component rerenders (in case that we pass the function as a anonymous function to the event listener) - bad performance
+  onSearchChange = (e) => {
+    const searchField = e.target.value.toLowerCase();
+    this.setState(() => {
+      return { searchField };
+    });
+  };
+
   render() {
+    console.log("render");
+
+    const { monsters, searchField } = this.state;
+    const { onSearchChange } = this;
+
+    const filteredMonsters = monsters.filter((monster) =>
+      monster.name.toLowerCase().startsWith(searchField)
+    );
+
     return (
       <div className="App">
-        {this.state.monsters.map((monster) => {
+        <input
+          className="search-box"
+          type="search"
+          placeholder="search monster"
+          onChange={onSearchChange}
+        />
+        {filteredMonsters.map((monster) => {
           return (
             <div key={monster.id}>
               <h1>{monster.name}</h1>
