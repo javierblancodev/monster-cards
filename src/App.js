@@ -1,5 +1,6 @@
 import { Component } from "react";
 import "./App.css";
+import CardList from "./components/card-list/card-list.component";
 
 class App extends Component {
   // the constructor is the first method to be called when a component is render
@@ -33,8 +34,9 @@ class App extends Component {
         )
       );
   }
+  // So the flow is: 1. constructor, render, componentDidMount, render
 
-  // it is good practice to have functions that get called on an event listener and does not change declare out of the render method
+  // it is good practice to have functions that get called on an event listener and does not change declared out of the render method
   // the reason is that this way it is initialised just once, when the component is created, and not everytime that the
   // component rerenders (in case that we pass the function as a anonymous function to the event listener) - bad performance
   onSearchChange = (e) => {
@@ -62,13 +64,9 @@ class App extends Component {
           placeholder="search monster"
           onChange={onSearchChange}
         />
-        {filteredMonsters.map((monster) => {
-          return (
-            <div key={monster.id}>
-              <h1>{monster.name}</h1>
-            </div>
-          );
-        })}
+
+        {/* Recall components render (react update the dom) only after the state is changed to a new object or after props are changed */}
+        <CardList monsters={filteredMonsters} />
       </div>
     );
   }
