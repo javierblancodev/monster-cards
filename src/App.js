@@ -1,6 +1,7 @@
 import { Component } from "react";
 import "./App.css";
 import CardList from "./components/card-list/card-list.component";
+import SearchBox from "./components/search-box/search-box.component";
 
 class App extends Component {
   // the constructor is the first method to be called when a component is render
@@ -58,12 +59,10 @@ class App extends Component {
 
     return (
       <div className="App">
-        <input
-          className="search-box"
-          type="search"
+        <SearchBox
+          onChangeHandler={onSearchChange}
           placeholder="search monster"
-          onChange={onSearchChange}
-        />
+        ></SearchBox>
 
         {/* Recall components render (react update the dom) only after the state is changed to a new object or after props are changed */}
         <CardList monsters={filteredMonsters} />
