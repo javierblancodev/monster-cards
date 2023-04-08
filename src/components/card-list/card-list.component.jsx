@@ -1,4 +1,5 @@
-import { Component } from 'react'
+import { Component } from 'react';
+import './card-list.styles.css'
 
 class CardList extends Component {
   // the constructor is still present (and super() called) but we do not write it down since we do not need to overwrite with an initial state for example
@@ -9,11 +10,15 @@ class CardList extends Component {
     const {monsters} = this.props
 
     return (
-      <div>
+      <div className='card-list'>
         {monsters.map((monster) => {
+          const {id, name, email} = monster
+
           return (
-            <div key={monster.id}>
-              <h1>{monster.name}</h1>
+            <div className='card-container' key={monster.id}>
+              <img src={`https://robohash.org/${id}?set=set2&size=180x180`} alt={`monster ${name}`} srcset="" />
+              <h2>{name}</h2>
+              <p>{email}</p>
             </div>
           );
         })}
