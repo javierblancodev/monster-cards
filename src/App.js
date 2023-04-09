@@ -1,7 +1,7 @@
-import { Component } from "react";
-import "./App.css";
-import CardList from "./components/card-list/card-list.component";
-import SearchBox from "./components/search-box/search-box.component";
+import { Component } from 'react';
+import './App.css';
+import CardList from './components/card-list/card-list.component';
+import SearchBox from './components/search-box/search-box.component';
 
 class App extends Component {
   // the constructor is the first method to be called when a component is render
@@ -11,18 +11,18 @@ class App extends Component {
     // Initiate the state
     this.state = {
       monsters: [],
-      searchField: "",
+      searchField: '',
     };
 
-    console.log("constructor");
+    console.log('constructor');
   }
 
   // In react we have access to (i.e. we can rewrite) some Component class methods - lifecycle methods
   // These methods indicates when render or redender
   // For example, componentDidMount() renders when a component is mounted (rendered a component into the page), but not rerendered for example after the state changes, and it is typically used to fetch data required by the component
   componentDidMount() {
-    console.log("componentDidMount");
-    fetch("https://jsonplaceholder.typicode.com/users")
+    console.log('componentDidMount');
+    fetch('https://jsonplaceholder.typicode.com/users')
       .then((response) => response.json())
       .then((users) =>
         this.setState(
@@ -48,7 +48,7 @@ class App extends Component {
   };
 
   render() {
-    console.log("render");
+    console.log('render');
 
     const { monsters, searchField } = this.state;
     const { onSearchChange } = this;
@@ -59,6 +59,8 @@ class App extends Component {
 
     return (
       <div className="App">
+        <h1 className="app-title">Monster Rodolex</h1>
+
         <SearchBox
           className="monster-search-box"
           onChangeHandler={onSearchChange}
