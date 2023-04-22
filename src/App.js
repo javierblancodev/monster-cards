@@ -1,5 +1,4 @@
-import { useState } from 'react';
-
+import { useState, useEffect } from 'react';
 import './App.css';
 import CardList from './components/card-list/card-list.component';
 import SearchBox from './components/search-box/search-box.component';
@@ -8,12 +7,26 @@ const App = () => {
   // useState is the simplest hook we can use to manage the local state when working with functional components
   // it gives back an array of two variables (the value that stores a particular piece of state and a method to set this to a new value) that can be destructured as follows
   // Opposite to class components, the local state is not deal as a whole object but with its individual values
-  const [searchField, setSearchfield] = useState();
-  console.log(searchField);
+  const [searchField, setSearchfield] = useState('');
+  const [monsters, setMonsters] = useState([]);
+  const [filteredMonsters, setFilteredMonsters] = useState(monsters);
+
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then((response) => response.json())
+      .then((users) => setMonsters(users));
+  }, []);
+
+  useEffect(() => {
+    const newFilteredMonsters = monsters.filter((monster) =>
+      monster.name.toLowerCase().includes(searchField)
+    );
+
+    setFilteredMonsters(newFilteredMonsters);
+  }, [monsters, searchField]);
 
   const onSearchChange = (e) => {
     const searchFieldSring = e.target.value.toLowerCase();
-
     setSearchfield(searchFieldSring);
   };
 
@@ -27,7 +40,7 @@ const App = () => {
         placeholder="search monster"
       ></SearchBox>
 
-      {/* <CardList monsters={filteredMonsters} /> */}
+      <CardList monsters={filteredMonsters} />
     </div>
   );
 };
@@ -51,18 +64,7 @@ const App = () => {
 //   // For example, componentDidMount() renders when a component is mounted (rendered a component into the page), but not rerendered for example after the state changes, and it is typically used to fetch data required by the component
 //   componentDidMount() {
 //     console.log('componentDidMount');
-//     fetch('https://jsonplaceholder.typicode.com/users')
-//       .then((response) => response.json())
-//       .then((users) =>
-//         this.setState(
-//           () => {
-//             return { monsters: users };
-//           },
-//           () => {
-//             console.log(this.state);
-//           }
-//         )
-//       );
+//
 //   }
 //   // So the flow is: 1. constructor, render, componentDidMount, render
 
@@ -77,9 +79,7 @@ const App = () => {
 //     const { monsters, searchField } = this.state;
 //     const { onSearchChange } = this;
 
-//     const filteredMonsters = monsters.filter((monster) =>
-//       monster.name.toLowerCase().startsWith(searchField)
-//     );
+//
 
 //
 //   }
